@@ -6,7 +6,7 @@ This image facilitates the usage of **auto-p2docking**, a pipeline maker for pro
 
 ## v1.0.0 - July 2024
 
-An online manual is available [here](http://evolution6.i3s.up.pt/static/auto-p2docking/v1/docs/).
+An online manual is available [here](http://evolution6.i3s.up.pt/static/auto-p2docking/docs/).
 
 # Using the auto-p2docking image in Linux
 
