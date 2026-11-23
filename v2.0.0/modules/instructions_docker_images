@@ -1,0 +1,37 @@
+*Docker Image For haddock24 Module*
+
+Due to licensing issues, we are unable to provide the cns_solve_1.3_all_intel-mac_linux and haddock2.4-2023-08 executables. They must be downloaded from the following pages: http://cns-online.org/cns_request/ and https://www.bonvinlab.org/software/haddock2.4/download/. We only guarantee that the docker image will work with haddock2.4-2023-08 version. After obtaining those files, just put the two executables in a folder and use the following command to create a working docker image called pegi3s/haddock24:
+
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v your/data/dir:/data pegi3s/haddock24-builder bash -c "cp /data/* ./ && docker build ./ -t pegi3s/haddock24"
+
+	- You just need to do this once, unless you erase the pegi3s/haddock24 image from your computer in which case you must repeat this step. In this command, you should replace: /your/data/dir to point to the directory that contains the cns_solve and haddock2.4 executables.
+	
+After this you can try running the pipeline again.
+
+--------------------------------------------------------------------------------------------------------
+
+*Docker Image For hdock Module*
+
+Because of licensing issues we cannot make available the hdock and createpl executables. Therefore, they must be obtained from http://huanglab.phys.hust.edu.cn/software/hdocklite/. After obtaining those files, just put the two executables in a folder and use the following command to create a working docker image called pegi3s/hdock:
+
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /your/data/dir:/data pegi3s/hdock-builder bash -c "cp /data/* ./ && docker build ./ -t pegi3s/hdock"
+
+	- You just need to do this once, unless you erase the pegi3s/hdock image from your computer in which case you must repeat this step. In this command, you should replace: /your/data/dir to point to the directory that contains the hdock and createpl executables.
+
+After this you can try running the pipeline again.
+
+--------------------------------------------------------------------------------------------------------
+
+*Docker Image For pydock_ftdock Module*
+
+Because of licensing issues we cannot make available PyDock3 or zdock files. Therefore, they must be obtained from https://life.bsc.es/pid/pydock/get_pydock.html and https://zdock.umassmed.edu/software/ respectively.
+
+After obtaining the pyDock3.tgz and zdock3.0.2_linux_x64.tar.gz files, just put it in a empty folder and use the following command to create a working docker image called pegi3s/pydock3:
+
+docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v /your/data/dir:/data pegi3s/pydock3-builder bash -c "cp /data/* ./ && docker build ./ -t pegi3s/pydock3"
+
+	- You just need to do this once, unless you erase the pegi3s/pydock3 image from your computer in which case you must repeat this step. In this command, you should replace: /your/data/dir to point to the directory that contains the pyDock3.tgz and zdock3.0.2_linux_x64.tar.gz files.
+
+After this you can try running the pipeline again.
+
+

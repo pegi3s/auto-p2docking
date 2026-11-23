@@ -1,0 +1,98 @@
+#!/bin/bash
+
+. /data/config
+
+input_dir=$1
+out_dir=$2
+prefix=$3
+
+date=$(printf '%(%d-%m-%Y)T\n' -1)
+
+a=$(cut -f1 -d`,` /data/files_to_keep/versions.csv | tail -n +2 | sort -u | sed `s/\n/,/g` | sed `s/,$//g`)
+echo "auto-p2docking version 1.0.0 haas been used. The following modules wer used: "$a > summary
+
+while read module input output; do
+  if [ $module == "exclude" ]; then
+     b=$(cat /data/$project/$input/*)
+     echo "The following accessions were excluded: "$b >> summary
+  fi
+  if [ $module == "geneid2uniprotkb" ]; then
+     echo "Gene IDs have been converted to reference UniProtKB ID using the information given at the at the NCBI (https://www.ncbi.nlm.nih.gov/) gene database (UniProtKB/Swiss-Prot field)." >> summary
+  fi
+  if [ $module == "getalphafoldpdb" ]; then
+     echo "PDB structutures have been retrieved from the AlphaFold database (https://www.rcsb.org/)" >> summary
+  fi
+  if [ $module == "getditasserpdb" ]; then
+     echo "PDB structures have been retrieved from the HPmod database (Human Proteome Model database; https://zhanggroup.org/HPmod/)." >> summary
+  fi
+  if [ $module == "getpdb" ]; then
+     echo "PDB structures have been retrieved from the PDB database (Protein data bank; https://www.rcsb.org/)." >> summary
+  fi
+  if [ $module == "haddock" ]; then
+     #c=
+     echo "Protein-protein docking was performed using a local instance of HADDOCK (version $c) and the active and passive sites reported in file XXXXX " >> summary
+  fi
+  if [ $module == "hdock" ]; then
+     #d=
+     echo "Protein-protein docking was performed using HDOCK (version $d) and the active and passive sites reported in file XXXXX " >> summary
+  fi
+  if [ $module == "highlight_regions" ]; then
+     #e=
+     echo "Pattern positions were highlighted using Pymol (version $e)" >> summary
+  fi
+  if [ $module == "h_prot_atlas" ]; then
+     #f=
+     echo "The presence of each protein was checked in the following tissues $f, using the Tissue-based map of the human proteome (https://www.proteinatlas.org/humanproteome/tissue) at the Human Protein Atlas database." >> summary
+  fi
+  if [ $module == "get_pattern" ]; then
+     #g=
+     echo "The following pattern was used: $g." >> summary
+  fi
+  #if [ $module == "cport-like" ]; then
+     #h=
+     #echo "Active and passive sites for each protein were obtained using the following methods: $h. #### conversao numeros ####" >> summary
+  #fi
+  if [ $module == "evoppi_querier" ]; then
+     #i_date=$date
+     #i_species=
+     #i_database=
+     #i_interaction=
+     echo "The EvoPPI website (http://evoppi.i3s.up.pt) was accessed on the $i_date. The GeneIds listed in file XXX were retrieved using the following parameters: same species query, $i_species, $i_database, and interaction level $i_interaction. " >> summary
+  fi
+  if [ $module == "intersect" ]; then
+     #j=
+     echo "Only the accessions thay are simultaneously present on the $j datasets were considered (file XXX)" >> summary
+  fi
+  if [ $module == "pydock_ftdock" ]; then
+     #k=
+     echo "Protein-protein docking was performed using Ftdock (version $k)." >> summary
+  fi
+  if [ $module == "tm-align-cutoff" ]; then
+     echo "" >> summary
+  fi
+  if [ $module == "tm-align-pdb" ]; then
+     echo "" >> summary
+  fi
+  if [ $module == "pisa_ccp4_extract" ]; then
+     #l=
+     echo "Interface resiudes were identified using PISA, as implemented in CCP4 (version #l)" >> summary
+  fi
+  if [ $module == "pisa_server_extract" ]; then
+     #m=$date
+     echo "Interface resiudes were identified using the PDBePISA server on the $m." >> summary
+  fi
+ #if [ $module == "haddock_server" ]; then
+     #n=$date
+     #echo "Protein-protein docking was performed using HADDOCK v2.4-2022.08 (https://wenmr.science.uu.nl/haddock2.4/submit/1) on the $n." >> summary
+  #fi
+  if [ $module == "consensus" ]; then
+     #o_m=
+     #o_p1=
+     #o_p2=
+     echo "In order to build a consensus based on the predictions obtained by the different methodologies ($o_m), the calling with more votes is selected as the true one. If there are less than 10 active sites consensus of these methodologies used in. If less than 10 active sites are identified in the consensus, then the method that identifies most active sites is considered on its own. If the selected method identifies more than 149 active sites, then a random sample of 149 sites is taken out of all active sites identified. If more than 149 active sites are identified in the consensus, then only the methods $o_p1 and $o_p2 are considered. If the consensus still shows more than 149 active sites, then rows of three active sites are converted into rows of one active site, one ambiguous site and one passive site. If more than 149 active sites remain, then 149 sites are randomly chosen." >> summary
+  fi
+
+done /data/pipeline
+#l=
+echo "A graphical representation of the pipeline was obtained using XXXX (version $l)." >> summary
+
